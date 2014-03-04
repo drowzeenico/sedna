@@ -1,0 +1,9 @@
+RewriteEngine on
+RewriteBase /
+
+RewriteRule !\.(js|ico|gif|jpg|png|css|otf|eot|woff|ttf|swf|html|pdf|xls|doc|docx)$ index.php
+
+ErrorDocument 404 /404.html
+ErrorDocument 403 error
+
+AddDefaultCharset UTF-8

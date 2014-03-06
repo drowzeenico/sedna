@@ -10,9 +10,10 @@ namespace Core {
 
 		private $rules = array ();
 		private $field;
+		private $message;
 
 		public function __construct() {
-			$this->rules = array (
+			$this->types = array (
 				'int' => function ($value) {
 					return is_numeric($value) && (int) $value == $value ? true : false;
 				},
@@ -26,11 +27,11 @@ namespace Core {
 		}
 
 		public function set($type, $rule) {
-			$this->rules[$type] = $rule;
+			$this->types[$type] = $rule;
 		}
 
 		private function notValid($criteria) {
-			$this->errors[$this->field][$criteria] = false;
+			$this->errors[$this->field][$criteria] = $this->message;
 		}
 
 		private function required($value) {
@@ -80,31 +81,40 @@ namespace Core {
 		}
 
 		private function type($value, $type) {
-			if(is_object($this->rules[$type]) && get_class($this->rules[$type]) == 'Closure') {
-				if($this->rules[$type]($value) === false)
+			if(is_object($this->types[$type]) && get_class($this->types[$type]) == 'Closure') {
+				if($this->types[$type]($value) === false)
 					$this->notValid(__FUNCTION__);
 			} else {
-				$regexp = '/^'.$this->rules[$type].'$/Ui';
+				$regexp = '/^'.$this->types[$type].'$/Ui';
 				if(!preg_match($regexp, $value))
 					$this->notValid(__FUNCTION__);
 			}
 		}
 
-		public function check($value, $rule) {
-			
-			$rules = explode ('|', $rule);
+		private function check($value, $rule) {
 
+			$itemRules = $rule[0];
+			$errors = $rule[1];
+
+			$rules = explode ('|', $itemRules);
+
+			$errorIndex = 0;
 			foreach ($rules as $rule) {
 				$params = explode(':', $rule);
-
 				$criteria = $params[0];
-
 				$values = array ();
+
 				if(isset($params[1])) {
 					$values = explode(',', $params[1]);
 					if(count($values) == 1)
 						$values = $values[0];
 				}
+
+				if(isset($errors[$errorIndex]))
+					$this->message = $errors[$errorIndex];
+				else
+					$this->message = false;
+				$errorIndex++;
 
 				$this->{$criteria}($value, $values);
 			}
@@ -115,9 +125,12 @@ namespace Core {
 			return false;
 		}
 
-		public function validate($data, $rules = null) {
-			if($rules != null)
-				$this->rules = array_merge($this->rules, $rules);
+		public function validate($data, $rules) {
+			$this->errors = null;
+			$this->rules = array ();
+			$this->message = null;
+
+			$this->rules = $rules;
 
 			foreach ($data as $key => $value) {
 				if(isset($this->rules[$key])) {

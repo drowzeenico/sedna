@@ -24,15 +24,17 @@ namespace Controller;
 			);
 
 			$rules = array (
-				'name' => 'required|type:alpha|strlen:6,*',
-				'lastname' => 'required|type:alpha|strlen:6,*',
-				'year' => 'required|type:int|min:20'
+				'name' => array ('required|type:alpha|strlen:6,*', array('req', 'alpha', 'strlen6')),
+				'lastname' => array ('required|type:alpha|strlen:6,*', array ('req', 'alpha', 'strlen6')),
+				'year' => array ('required|type:int|min:20', array ('req', 'int'))
 			);
 
 			if(\App::validator()->validate($data, $rules))
 				echo 'success';
 			else
 				print_r(\App::validator('errors'));
+
+			\Model\Client::myfoo();
 		}
 	}
 

@@ -4,12 +4,11 @@ namespace Model;
 
 	class Client extends \Core\Model {
 
-		private $table;
+		protected $table;
 
 		private $columns = array (
 			'id' => 'primary key'
 		);
-
 	}
 
 ?>

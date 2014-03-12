@@ -33,8 +33,6 @@ namespace Controller;
 				echo 'success';
 			else
 				print_r(\App::validator('errors'));
-
-			\Model\Client::myfoo();
 		}
 	}
 

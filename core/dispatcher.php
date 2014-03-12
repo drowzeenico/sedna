@@ -11,7 +11,10 @@ namespace Core {
 			try {
 				$this->run();
 			} catch (\Exception $e) {
-				$e->process($e);
+				if(method_exists($e, 'process'))
+					$e->process($e);
+				else
+					print_r($e);
 				exit;
 			}
 		}

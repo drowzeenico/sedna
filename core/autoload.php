@@ -16,7 +16,7 @@ namespace Core {
 		}
 
 	    public function addNamespace($namespace, $rootDir) {
-	    	$namespace = strtolower($namespace);
+	    	$namespace = str_replace('\\', '/', strtolower($namespace));
 	    	$rootDir = strtolower($rootDir);
 
 			$this->namespacesMap[$namespace] = $rootDir;
@@ -40,6 +40,7 @@ namespace Core {
             	$filePath = $this->namespacesMap[$namespace] . '/' . $class . '.php';
 	        else
 	        	$filePath = DOCROOT .'/'. $namespace . '/' . $class . '.php';
+
 	        include_once $filePath;
 
 	    }

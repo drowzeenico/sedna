@@ -6,9 +6,7 @@ namespace Model;
 
 		protected $table;
 
-		private $columns = array (
-			'id' => 'primary key'
-		);
+		
 	}
 
 ?>

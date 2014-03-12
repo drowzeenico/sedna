@@ -18,6 +18,9 @@
 	$Autoloader = new \Core\Autoload('core', SYSPATH);
 	$Autoloader->addNamespace('Model', APPPATH .'/model');
 
+	$Autoloader->addNamespace('Capsule', SYSPATH .'/eloquent/dhorrigan/capsule/lib/capsule');
+	$Autoloader->addNamespace('Capsule\Database', SYSPATH .'/eloquent/dhorrigan/capsule/lib/capsule/database');
+
 	// register our autoloader
 	$Autoloader->register();
 

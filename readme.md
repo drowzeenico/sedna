@@ -1,1 +1,1 @@
-Sedna - my own MVC PHP-framework. For fun :)
+Sedna - my own MVC PHP-framework. Just for fun :)

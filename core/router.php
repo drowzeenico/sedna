@@ -38,8 +38,8 @@ namespace Core {
 				$this->lang = 'ru';
 		}
 
-		public function __construct() {
-			$this->apps = func_get_args();
+		public function __construct(array $subapps) {
+			$this->apps = $subapps;
 			$this->route = new Route();
 		}
 

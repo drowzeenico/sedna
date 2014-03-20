@@ -4,7 +4,7 @@ namespace Core {
 
 	class View extends Magic{
 		
-		public $viewFolder = '/view';
+		public $viewFolder = '/view/';
 
 		public $layoutFolder = '/layouts';
 
@@ -31,7 +31,6 @@ namespace Core {
 			$this->html = new \HTML();
 
 			$this->viewFolder = APPPATH . $this->viewFolder . $this->space;
-			//	include_once (APPPATH . '/html.php');
 		}
 
 		public function includeCss() {

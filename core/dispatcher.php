@@ -27,6 +27,8 @@ namespace Core {
 			\App::$state->_sessionId = Session::$id;
 
 			include_once (APPPATH . '/bootstrap/' . \App::$state->app . '.php');
+			$class = '\Bootstrap\\' . \App::$state->app;
+			$bootstrap = new $class;
 
 			$clazz = 'Controller\\' . $controller;
 			if(\App::$state->app != 'app')
@@ -39,11 +41,16 @@ namespace Core {
 			}
 
 			$this->controller->before();
+			if(method_exists($bootstrap, $action . '_before'))
+				$bootstrap->{$action . '_before'}();
 
 			if(!method_exists($this->controller, $action))
 				throw new \Exception\PageNotFound();
 
 			$this->controller->{$action}();
+			if(method_exists($bootstrap, $action . '_after'))
+				$bootstrap->{$action . '_after'}();
+
 			$this->controller->after();
 
 			Response::render();

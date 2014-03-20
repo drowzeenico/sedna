@@ -67,8 +67,6 @@
 	$Autoloader->addNamespace('Controller', APPPATH .'/controller');
 	$Autoloader->addNamespace('Exception', APPPATH .'/exceptions');
 
-	$Autoloader->addNamespace('\Core\Paris', SYSPATH . '/paris');
-
 	foreach (\App::config()->subApps as $app) {
 		$dir = ucfirst($app);
 		$Autoloader->addNamespace('Controller\\' . $dir, APPPATH .'/controller/' . $app);

@@ -11,6 +11,8 @@ namespace Controller;
 		public function index() {
 			$this->view->title = 'Sedna';
 
+			$users = $this->db->select('select * from users');
+
 			$user = \Model\Account::find(1);
 			if($user == null)
 				throw new \Exception\PageNotFound();

@@ -26,13 +26,15 @@
 			returns @object of service
 		*/
 		public static function get($key) {
-			if(!isset(self::$services[$key]))
-				return null;
+			$service = self::$services[$key];
 
-			if(is_string(self::$services[$key]))
-				self::set($key, new self::$services[$key]);
+			if(is_string($service))
+				self::set($key, new $service);
 
-			return self::$services[$key];
+			if(is_object($service) && ($service instanceof Closure))
+				self::$services[$key] = $service();
+
+			return $service;
 		}
 
 		/*

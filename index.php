@@ -31,14 +31,26 @@
 	\App::set('validator', 'Core\Validator');
 	\App::set('config', 'Core\Config');
 	\App::set('i18n', 'Core\i18n');
-	\App::set('DB', 'Core\Db\PDO\Adapter');
-	\App::set('QB', 'Core\Db\QB');
 
 	// special variable for saving app states
 	\App::$state = new StdClass();
 
 	// include users config file
 	include_once ('app/config.php');
+
+	\App::set('DB', function () {
+		if(!\App::config('eloquent')) {
+			require_once SYSPATH . '/eloquent/autoload.php';
+
+			$default = \App::config('default_connection');
+			$connections = \App::config('connections');
+			\Capsule\Database\Connection::make('default', $connections[$default], true);
+
+			\App::config('eloquent', true);
+		}
+
+		return new \Capsule\Db;
+	});
 
 	// init Router with subapps
 	$Router = new \Core\Router(\App::config()->subApps);

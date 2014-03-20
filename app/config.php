@@ -7,7 +7,7 @@
 	$Config->langs = array ('en' => 'Английский', 'ru' => 'Русcкий'); // supported languages, required
 	$Config->lang = 'en'; //default language, required
 
-	// It'ss necessarily. development|production
+	// It's necessarily. development|production
 	$Config->environment = 'development';
 
 	// databse connections

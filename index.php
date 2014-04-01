@@ -9,14 +9,14 @@
 	define('DOCROOT', $_SERVER['DOCUMENT_ROOT']);
 	define('SYSPATH', DOCROOT . '/core');
 	define('MODPATH', DOCROOT . '/modules');
-	define('APPPATH', DOCROOT . '/app');
+	define('APP', DOCROOT . '/app');
 
 	// get autoloader class
 	include (SYSPATH . '/autoload.php');
 
 	// init autoloader and mapping namespaces
 	$Autoloader = new \Core\Autoload('core', SYSPATH);
-	$Autoloader->addNamespace('Model', APPPATH .'/model');
+	$Autoloader->addNamespace('Model', APP .'/model');
 
 	$Autoloader->addNamespace('Capsule', SYSPATH .'/eloquent/dhorrigan/capsule/lib/capsule');
 	$Autoloader->addNamespace('Capsule\Database', SYSPATH .'/eloquent/dhorrigan/capsule/lib/capsule/database');
@@ -36,10 +36,11 @@
 	\App::$state = new StdClass();
 
 	// include users config file
-	include_once ('app/config.php');
+	include_once ('config.php');
 
 	\App::set('DB', function () {
 		if(!\App::config('eloquent')) {
+
 			require_once SYSPATH . '/eloquent/autoload.php';
 
 			$default = \App::config('default_connection');
@@ -60,20 +61,25 @@
 	// save app current language
 	\App::$state->lang = $Router->lang;
 
+	if($Router->app == 'app')
+		$Router->app = '';
+
 	// save current app
 	\App::$state->app = $Router->app;
 
-	// controllers namespaces mapping
-	$Autoloader->addNamespace('Controller', APPPATH .'/controller');
-	$Autoloader->addNamespace('Exception', APPPATH .'/exceptions');
+	define ('APPPATH', APP . '/' . $Router->app);
 
-	foreach (\App::config()->subApps as $app) {
+	// controllers namespaces mapping
+	$Autoloader->addNamespace($Router->app . '\Controller', APPPATH .'/controller');
+	$Autoloader->addNamespace($Router->app . '\Exception', APPPATH .'/exceptions');
+
+	/*foreach (\App::config()->subApps as $app) {
 		$dir = ucfirst($app);
 		$Autoloader->addNamespace('Controller\\' . $dir, APPPATH .'/controller/' . $app);
 		// register error handlers
 		$Autoloader->addNamespace('Exception\\' . $dir, APPPATH .'/exceptions/' . $app);
-	}
+	}*/
 
 	// find route and start app
-	include_once (APPPATH . '/routes/' . \App::$state->app . '.php');
+	include_once (APPPATH . '/routes.php');
 ?>

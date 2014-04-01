@@ -2,7 +2,7 @@
 
 namespace Core {
 
-	class i18n {
+	class i18n{
 
 		private $params = array();
 

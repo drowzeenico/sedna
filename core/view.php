@@ -24,13 +24,11 @@ namespace Core {
 
 		public function __construct() {
 			$this->space = \App::$state->app;
-			if($this->space == 'app')
-				$this->space = '';
 
-			include_once (APPPATH . '/helpers/' . \App::$state->app . '.php');
+			include_once (APPPATH . '/helper.php');
 			$this->html = new \HTML();
 
-			$this->viewFolder = APPPATH . $this->viewFolder . $this->space;
+			$this->viewFolder = APPPATH . $this->viewFolder;
 		}
 
 		public function includeCss() {

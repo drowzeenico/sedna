@@ -26,13 +26,11 @@ namespace Core {
 			$View = \App::view();
 			\App::$state->_sessionId = Session::$id;
 
-			include_once (APPPATH . '/bootstrap/' . \App::$state->app . '.php');
-			$class = '\Bootstrap\\' . \App::$state->app;
+			include_once (APPPATH . '/bootstrap.php');
+			$class = '\bootstrap';
 			$bootstrap = new $class;
 
-			$clazz = 'Controller\\' . $controller;
-			if(\App::$state->app != 'app')
-				$clazz = 'Controller\\' . \App::$state->app . '\\' . $controller;
+			$clazz = \App::$state->app . '\Controller\\' . $controller;
 
 			try {
 				$this->controller = new $clazz();

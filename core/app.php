@@ -18,6 +18,7 @@
 
 		public static function set($key, $value) {
 			self::$services[$key] = $value;
+			return self::$services[$key];
 		}
 
 		/*
@@ -29,7 +30,7 @@
 			$service = self::$services[$key];
 
 			if(is_string($service))
-				self::set($key, new $service);
+				$service = self::set($key, new $service);
 
 			if(is_object($service) && ($service instanceof Closure))
 				self::$services[$key] = $service();

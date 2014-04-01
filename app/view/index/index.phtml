@@ -1,4 +1,68 @@
-<b><i>Users</i></b><br><br>
-<?foreach ($this->users as $user) {?>
-	<b><?=$user->id?></b> <?=$user->login?><br>
-<?}?>
+<script type="text/javascript" src="/public/js/form.js"></script>
+<script type="text/javascript" src="/public/js/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+window.onload = function () {
+	var form = new Form({
+		id : 'formId',
+		before : function () {
+			alert('before');
+		},
+		after: function () {
+			alert('after');
+		},
+		rules : {
+			name : {
+				required: {error: 'Нихт еба'},
+				alpha: {error: 'Тока буквы еба'}
+			},
+			value : {
+				required: {error: 'Обязательно к заполнению'}
+			}
+		},
+		fails : function (fields) {
+			console.log(fields);
+		}
+	});
+
+	var form = new Form({
+		id : 'second'
+	});
+};
+
+</script>
+
+<form action="asd" method="post"  id="formId">
+	<input type="text" name="name"><br>
+	<input type="text" name="value"><br>
+	<input type="checkbox" name="check"> test<br>
+	<input type="radio" name="radio" value="1"> qwe
+	<input type="radio" name="radio" value="2">	asd
+	<input type="radio" name="radio" value="3">	zxc
+
+	<br>
+	<select name="asd">
+		<option value="1">1</option>
+		<option value="2">2</option>
+		<option value="3">3</option>
+	</select>
+	<br>
+
+	<input type="checkbox" name="chb[0]">ads0
+	<input type="checkbox" name="chb[1]">qwe1
+	<input type="checkbox" name="chb[2]">zxc2
+
+	<input type="submit">
+</form>
+
+<form action="/mail" method="post"  id="second">
+	<input type="text" name="name"><br>
+	<input type="text" name="value"><br>
+
+	<input type="checkbox" name="chb[qwe]">qweqwe
+	<input type="checkbox" name="chb[asd]">asdasd
+	<input type="checkbox" name="chb[zxc]">zxczxc
+
+	<input type="submit">
+</form>

@@ -30,20 +30,26 @@ namespace Core {
 			$class = '\bootstrap';
 			$bootstrap = new $class;
 
-			$clazz = \App::$state->app . '\Controller\\' . $controller;
+
+			$clazz = 'Controller\\' . $controller;
+			if(\App::$state->app != '')
+				$clazz = \App::$state->app . '\\' . $clazz;
 
 			try {
 				$this->controller = new $clazz();
 			} catch(Exception $e) {
-				throw new \Exception\PageNotFound();
+				$errorClass = \App::$state->app . '\Exception\PageNotFound';
+				throw new $errorClass();
 			}
 
 			$this->controller->before();
 			if(method_exists($bootstrap, $action . '_before'))
 				$bootstrap->{$action . '_before'}();
 
-			if(!method_exists($this->controller, $action))
-				throw new \Exception\PageNotFound();
+			if(!method_exists($this->controller, $action)) {
+				$errorClass = \App::$state->app . '\Exception\PageNotFound';
+				throw new $errorClass();
+			}
 
 			$this->controller->{$action}();
 			if(method_exists($bootstrap, $action . '_after'))

@@ -70,15 +70,21 @@
 	define ('APPPATH', APP . '/' . $Router->app);
 
 	// controllers namespaces mapping
-	$Autoloader->addNamespace($Router->app . '\Controller', APPPATH .'/controller');
-	$Autoloader->addNamespace($Router->app . '\Exception', APPPATH .'/exceptions');
+	$classes = array (
+		'Controller' => 'controller',
+		'Exception' => 'exceptions'
+	);
 
-	/*foreach (\App::config()->subApps as $app) {
-		$dir = ucfirst($app);
-		$Autoloader->addNamespace('Controller\\' . $dir, APPPATH .'/controller/' . $app);
-		// register error handlers
-		$Autoloader->addNamespace('Exception\\' . $dir, APPPATH .'/exceptions/' . $app);
-	}*/
+	foreach ($classes as $namespace => $path) {
+		$space = $namespace;
+		$pathToFile = APPPATH . $path;
+		if($Router->app != '') {
+			$space = $Router->app . '\\' . $namespace;
+			$pathToFile = APPPATH .'/' . $path;
+		}
+
+		$Autoloader->addNamespace($space, $pathToFile);
+	}
 
 	// find route and start app
 	include_once (APPPATH . '/routes.php');

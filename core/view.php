@@ -33,12 +33,12 @@ namespace Core {
 
 		public function includeCss() {
 			foreach ($this->css as $css)
-				$this->output('<link rel="stylesheet" type="text/css" href="/public/css/'.$css.'.css">');
+				echo '<link rel="stylesheet" type="text/css" href="/public/css/'.$css.'.css">' . "\n";
 		}
 
 		public function includeJs() {
 			foreach ($this->js as $js)
-				$this->output('<script type="text/javascript" src="/public/js/'.$js.'.js"></script>');
+				echo '<script type="text/javascript" src="/public/js/'.$js.'.js"></script>' . "\n";
 		}
 
 		public function renderLayout() {
